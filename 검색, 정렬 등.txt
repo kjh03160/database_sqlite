@@ -1,0 +1,145 @@
+sqlite> select distinct grade from enroll;
+Grade
+----------
+A
+B
+C
+sqlite> select all grade from enroll
+   ...> ;
+Grade
+----------
+A
+B
+A
+A
+C
+A
+A
+A
+B
+C
+B
+sqlite> select sno,sname from student where dept = "컴퓨터" and year = "4";
+Sno         Sname
+----------  ----------
+100         나수영
+400         송병길
+sqlite> select * from enroll;
+Sno         Cno         Grade       Midterm     Final
+----------  ----------  ----------  ----------  ----------
+100         C413        A           90          95
+200         C123        B           85          80
+300         C312        A           90          95
+100         E412        A           95          95
+300         C324        C           75          75
+300         C413        A           95          90
+400         C312        A           90          95
+400         C324        A           95          90
+400         C413        B           80          85
+400         E412        C           65          75
+500         C312        B           85          80
+sqlite> select * from student;
+Sno         Sname       Year        Dept
+----------  ----------  ----------  ----------
+100         나수영   4           컴퓨터
+200         이찬수   3           전기
+300         정기태   1           컴퓨터
+400         송병길   4           컴퓨터
+500         박종화   2           산공
+sqlite> select * from student order by year;
+Sno         Sname       Year        Dept
+----------  ----------  ----------  ----------
+300         정기태   1           컴퓨터
+500         박종화   2           산공
+200         이찬수   3           전기
+100         나수영   4           컴퓨터
+400         송병길   4           컴퓨터
+sqlite> select * from student order by dept;
+Sno         Sname       Year        Dept
+----------  ----------  ----------  ----------
+500         박종화   2           산공
+200         이찬수   3           전기
+100         나수영   4           컴퓨터
+300         정기태   1           컴퓨터
+400         송병길   4           컴퓨터
+sqlite> select * from student order by dept, year;
+Sno         Sname       Year        Dept
+----------  ----------  ----------  ----------
+500         박종화   2           산공
+200         이찬수   3           전기
+300         정기태   1           컴퓨터
+100         나수영   4           컴퓨터
+400         송병길   4           컴퓨터
+sqlite> select * from student order by dept desc, year;
+Sno         Sname       Year        Dept
+----------  ----------  ----------  ----------
+300         정기태   1           컴퓨터
+100         나수영   4           컴퓨터
+400         송병길   4           컴퓨터
+200         이찬수   3           전기
+500         박종화   2           산공
+
+sqlite> select * from student, course;
+Sno         Sname       Year        Dept        Cno         Cname            credit      Dept        PRname
+----------  ----------  ----------  ----------  ----------  ---------------  ----------  ----------  ----------
+100         나수영   4           컴퓨터   C123        프로그래밍  3           컴퓨터   김성국
+100         나수영   4           컴퓨터   C312        자료구조     3           컴퓨터   황수관
+100         나수영   4           컴퓨터   C324        화일구조     3           컴퓨터   이규찬
+100         나수영   4           컴퓨터   C413        데이터베이  3           컴퓨터   이일로
+100         나수영   4           컴퓨터   E412        반도체        3           전자      홍봉진
+200         이찬수   3           전기      C123        프로그래밍  3           컴퓨터   김성국
+200         이찬수   3           전기      C312        자료구조     3           컴퓨터   황수관
+200         이찬수   3           전기      C324        화일구조     3           컴퓨터   이규찬
+200         이찬수   3           전기      C413        데이터베이  3           컴퓨터   이일로
+200         이찬수   3           전기      E412        반도체        3           전자      홍봉진
+300         정기태   1           컴퓨터   C123        프로그래밍  3           컴퓨터   김성국
+300         정기태   1           컴퓨터   C312        자료구조     3           컴퓨터   황수관
+300         정기태   1           컴퓨터   C324        화일구조     3           컴퓨터   이규찬
+300         정기태   1           컴퓨터   C413        데이터베이  3           컴퓨터   이일로
+300         정기태   1           컴퓨터   E412        반도체        3           전자      홍봉진
+400         송병길   4           컴퓨터   C123        프로그래밍  3           컴퓨터   김성국
+400         송병길   4           컴퓨터   C312        자료구조     3           컴퓨터   황수관
+400         송병길   4           컴퓨터   C324        화일구조     3           컴퓨터   이규찬
+400         송병길   4           컴퓨터   C413        데이터베이  3           컴퓨터   이일로
+400         송병길   4           컴퓨터   E412        반도체        3           전자      홍봉진
+500         박종화   2           산공      C123        프로그래밍  3           컴퓨터   김성국
+500         박종화   2           산공      C312        자료구조     3           컴퓨터   황수관
+500         박종화   2           산공      C324        화일구조     3           컴퓨터   이규찬
+500         박종화   2           산공      C413        데이터베이  3           컴퓨터   이일로
+500         박종화   2           산공      E412        반도체        3           전자      홍봉진
+
+
+sqlite> select cno, count(*), avg(final) from enroll group by cno having avg(final) <= 85;
+Cno         count(*)    avg(final)
+----------  ----------  ----------
+C123        1           80.0
+C324        2           82.5
+E412        2           85.0
+
+sqlite> select cno, count(*), avg(midterm), avg(final) from enroll group by cno having avg(final) <= avg(midterm);
+Cno         count(*)    avg(midterm)  avg(final)
+----------  ----------  ------------  ----------
+C123        1           85.0          80.0
+C324        2           85.0          82.5
+
+
+sqlite> pragma foreign_keys=ON
+   ...> ;
+sqlite> pragma foreign_keys;
+foreign_keys
+------------
+1
+sqlite> begin;
+sqlite> delete from student where sno = 100;
+sqlite> select * from enroll;
+Sno         Cno         Grade       Midterm     Final
+----------  ----------  ----------  ----------  ----------
+200         C123        B           85          80
+300         C312        A           90          95
+300         C324        C           75          75
+300         C413        A           95          90
+400         C312        A           90          95
+400         C324        A           95          90
+400         C413        B           80          85
+400         E412        C           65          75
+500         C312        B           85          80

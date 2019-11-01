@@ -1,0 +1,40 @@
+sqlite> create view cstudent (no, name, year) as select sno, sname, year from student where dept = "컴퓨터";
+sqlite> select * from c student
+   ...> ;
+Error: no such table: c
+sqlite> select * from cstudent
+   ...> ;
+no          name        year
+----------  ----------  ----------
+100         나수영   4
+300         정기태   1
+400         송병길   4
+sqlite> create view cs1(sno, name) as select no, name from cstudent where year = 1;
+sqlite> select * from cs1
+   ...> ;
+sno         name
+----------  ----------
+300         정기태
+sqlite> select sno as no, sname as name from student where year = 1 and dept =
+   ...> "컴퓨터";
+no          name
+----------  ----------
+300         정기태
+
+sqlite> create view enrol2 (sno, sname, cno) as select s.sno, s.sname, e.cno from student.s, enroll e where s.sno = e.sno;
+Error: view enrol2 cannot reference objects in database student
+sqlite> create view enrol2 (sno, sname, cno) as select s.sno, s.sname, e.cno from student s, enroll e where s.sno = e.sno;
+sqlite> select * from enrol2;
+sno         sname       cno
+----------  ----------  ----------
+100         나수영   C413
+100         나수영   E412
+200         이찬수   C123
+300         정기태   C312
+300         정기태   C324
+300         정기태   C413
+400         송병길   C312
+400         송병길   C324
+400         송병길   C413
+400         송병길   E412
+500         박종화   C312

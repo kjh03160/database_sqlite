@@ -1,0 +1,40 @@
+update student set dept='산공' where sno = '500';
+
+sqlite> create view cstudenct(sno, sname, year)
+   ...> as select sno, sname, year from student where dept = '컴퓨터';
+sqlite>
+sqlite>
+
+sqlite> select * from cstudent;
+no          name        year
+----------  ----------  ----------
+100         나수영   4
+300         정기태   1
+400         송병길   4
+600         김영호   4
+
+sqlite> select sno, sname, year from student where dept = '컴퓨터';
+Sno         Sname       Year
+----------  ----------  ----------
+100         나수영   4
+300         정기태   1
+400         송병길   4
+600         김영호   4
+
+sqlite> create view deptsize(dept, size) as select dept, count(*) from student group by dept;
+sqlite> select * from deptsize;
+dept        size
+----------  ----------
+            1
+산공      1
+전기      1
+컴퓨터   4
+
+sqlite> select dept from deptsize where size> 1;
+dept
+----------
+컴퓨터
+sqlite> select dept from student group by dept having count(*) > 1;
+Dept
+----------
+컴퓨터
